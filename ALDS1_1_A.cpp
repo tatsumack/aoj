@@ -15,6 +15,7 @@ void trace(int a[], int size) {
 void InsertionSort(int A[], int N) {
     int j = 0;
     for (int i = 1; i < N; ++i) {
+        trace(A, N);
         int key = A[i];
         j = i - 1;
         while (j >= 0 && A[j] > key) {
@@ -22,8 +23,8 @@ void InsertionSort(int A[], int N) {
             --j;
         }
         A[j+1] = key;
-        trace(A, N);
     }
+    trace(A, N);
 }
 
 int main() {
@@ -36,7 +37,6 @@ int main() {
     }
 
     InsertionSort(A, N);
-    trace(A, N);
     return 0;
 }
 
