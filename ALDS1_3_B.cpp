@@ -10,7 +10,7 @@ using namespace std;
 #define MAX_TASK_SIZE 100000
 
 struct Task {
-    char name[100];
+    string name;
     int time;
 };
 
@@ -44,7 +44,7 @@ void update (int dt) {
     }
     else {
         elaps += t->time;
-        printf("%s %d\n", t->name, elaps);
+        printf("%s %d\n", t->name.c_str(), elaps);
     }
 }
 
@@ -65,9 +65,11 @@ int main(){
         int t;
         scanf("%s", c);
         scanf("%d", &t);
+
         Task* task = new Task;
-        strcpy(task->name, c);
+        task->name = c;
         task->time = t;
+
         enqueue(task);
     }
 
