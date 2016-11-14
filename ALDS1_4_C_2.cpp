@@ -1,5 +1,5 @@
 // SEE: http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=ALDS1_4_C
-// Open Addressing
+// Chaining
 
 #include<stdio.h>
 #include<stdlib.h>
@@ -9,9 +9,16 @@
 #define M 1046527
 #define L 15
 
-char H[M][L];
 
-long long convertToNum(char* str) {
+struct Node {
+    char value[L];
+    Node* next;
+};
+
+Node* nil;
+Node* H[M];
+
+long long getKey(char* str) {
     long long result = 0;
     for (int i = 0; i < strlen(str); ++i) {
         int j = 0;
@@ -31,48 +38,35 @@ long long convertToNum(char* str) {
         }
         result += j * pow(5, i);
     }
-    return result;
-}
-
-int h1(int i) {
-    return i % M;
-}
-
-int h2(long long i) {
-    return 1 + i % (M - 1);
-}
-
-int getHash(long long key, int i) {
-    return (h1(key) + h2(key) * i) % M;
+    return result % M;
 }
 
 bool find(char* str) {
     int i = 0;
-    long long num = convertToNum(str);
-    while (int key = getHash(num, i++)) {
-        if (strcmp(H[key], str) == 0) return true;
-        if (H[key][0] == '\0') break;
+    long long key = getKey(str);
+    Node* cur = H[key];
+    while (cur != nil) {
+        if (strcmp(cur->value, str) == 0) return true;
+        cur = cur->next;
     }
     return false;
 }
 
 void insert(char* str) {
     int i = 0;
-    long long num = convertToNum(str);
-    while (int key = getHash(num, i++)) {
-        if (strcmp(H[key], str) == 0) break;
-        if (H[key][0] == '\0') {
-            strcpy(H[key], str);
-            break;
-        }
-    }
+    long long key = getKey(str);
+    Node* cur = H[key];
+    Node* node = (Node *)malloc(sizeof(Node));
+    strcpy(node->value, str);
+    node->next = cur;
+    H[key] = node;
     return;
 }
 
 int main() {
     int n;
     scanf("%d", &n);
-    for (int i = 0; i < M; ++i) { H[i][0] = '\0'; }
+    for (int i = 0; i < M; ++i) { H[i] = nil; }
 
     for (int i = 0; i < n; ++i) {
         char command[7];
