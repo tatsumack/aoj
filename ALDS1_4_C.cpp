@@ -3,6 +3,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+#include <math.h>
 
 #define M 1046527
 #define L 15
@@ -11,8 +12,7 @@ char H[M][L];
 
 long long convertToNum(char* str) {
     long long result = 0;
-    int i = 0;
-    while (str[i++]) {
+    for (int i = 0; i < strlen(str); ++i) {
         int j = 0;
         switch (str[i]) {
             case 'A':
@@ -28,7 +28,7 @@ long long convertToNum(char* str) {
                 j = 4;
                 break;
         }
-        result += j * 5 ^ (i);
+        result += j * pow(5, i);
     }
     return result;
 }
