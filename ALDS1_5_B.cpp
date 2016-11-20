@@ -19,7 +19,7 @@ void trace(int a[], int size) {
 void Merge(int A[], int left, int mid, int right) {
     int n1 = mid - left;
     int n2 = right - mid;
-    int L[n1], R[n2];
+    int L[n1+1], R[n2+1];
     for (int i = 0; i < n1; ++i) {
         L[i] = A[left + i];
     }
